@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Models\Contracts\FilamentUser;   // ⬅️ TAMBAH
+use Filament\Panel;                           // ⬅️ TAMBAH
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser   // ⬅️ IMPLEMENT FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -21,6 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'panel_id',   // ⬅️ TAMBAH
+        'is_active',  // ⬅️ TAMBAH
     ];
 
     /**
@@ -43,6 +46,18 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',   // ⬅️ TAMBAH
         ];
+    }
+
+    /**
+     * INI YANG NENTUKAN USER BOLEH MASUK PANEL MANA.
+     * 1 user = 1 panel (via panel_id).
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->is_active
+            && $this->panel_id !== null
+            && $this->panel_id === $panel->getId();
     }
 }
