@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
-use Filament\Models\Contracts\FilamentUser;   // ⬅️ TAMBAH
-use Filament\Panel;                           // ⬅️ TAMBAH
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Filament\Models\Contracts\FilamentUser;   // ⬅️ TAMBAH
+use Filament\Panel;                           // ⬅️ TAMBAH
 
 class User extends Authenticatable implements FilamentUser   // ⬅️ IMPLEMENT FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
