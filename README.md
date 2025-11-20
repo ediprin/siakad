@@ -16,11 +16,3 @@ Build frontend assets
 npm run build
 
 Start development server
-
-# Terminal 1 - Laravel server
-
-php artisan serve
-
-# Terminal 2 - Vite dev server
-
-npm run dev
